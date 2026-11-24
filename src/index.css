@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+body { @apply bg-white text-slate font-body antialiased; }
+::selection { background: #C6A66B; color: #14263D; }
+
+/* ---- Scroll reveal (IntersectionObserver-driven) ---- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); transition-delay: var(--reveal-delay, 0ms); will-change: opacity, transform; }
+.reveal-left { transform: translateX(-32px); }
+.reveal-right { transform: translateX(32px); }
+.reveal-zoom { transform: translateY(16px) scale(.96); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Gold rule that grows on reveal */
+.gold-rule { display: block; height: 3px; width: 0; background: linear-gradient(90deg, #C6A66B, #D9BE8A); border-radius: 999px; transition: width 1s cubic-bezier(.22,1,.36,1) .2s; }
+.is-visible .gold-rule, .gold-rule.is-visible { width: 64px; }
+
+/* Marquee */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee 32s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Floating / pulsing */
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.animate-floaty { animation: floaty 5s ease-in-out infinite; }
+@keyframes pulse-ring { 0% { transform: scale(.9); opacity: .7; } 100% { transform: scale(2.1); opacity: 0; } }
+.pulse-ring { animation: pulse-ring 2.6s ease-out infinite; }
+@keyframes dash-flow { to { stroke-dashoffset: -28; } }
+.dash-flow { stroke-dasharray: 6 8; animation: dash-flow 1.6s linear infinite; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 60s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .gold-rule { width: 64px !important; transition: none !important; }
+  .marquee-track, .animate-floaty, .pulse-ring, .dash-flow, .spin-slow { animation: none !important; }
+}
